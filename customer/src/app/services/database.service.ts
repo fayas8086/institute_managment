@@ -14,13 +14,13 @@ export class DatabaseService {
   currentAcno:any;
 
  userDetails:any =[//object of objects
- {id:1,firstname:'Allwin',lastname:'shaji',email:"allwinshaji@gmail.com",city:"ernakulam",address:"345 2nd street",gender:"male"},
- {id:2,firstname:'shajmil',lastname:'jamal',email:"shajmil@gmail.com",city:"ernakulam",address:" 2 angamaly street",gender:"male"},
- {id:3,firstname:'sana',lastname:'sajid',email:"sanasajid@gmail.com",city:"ernakulam",address:"345 2nd street",gender:"female"},
- {id:4,firstname:'fayas',lastname:'jabbar',email:"fayasJabbar@gmail.com",city:"ernakulam",address:"vadakkethalakkal",gender:"male"},
- {id:5,firstname:'sandhra',lastname:'francis',email:"san@gmai.com",city:"ernakulam",address:"puthyaveetil house",gender:"female"},
- {id:6,firstname:'sharik',lastname:'sajid',email:"shariksajid@gmail.com",city:"ernakulam",address:"3 street",gender:"male"},
- {id:7,firstname:'amritha',lastname:'luminar',email:"amritha@gmail.com",city:"ernakulam",address:"luminar technolab",gender:"female"},
+ {id:1,firstname:'Allwin',lastname:'shaji',email:"allwinshaji@gmail.com",password:"ernakulam",address:"345 2nd street",gender:"male"},
+ {id:2,firstname:'shajmil',lastname:'jamal',email:"shajmil@gmail.com",password:"ernakulam",address:" 2 angamaly street",gender:"male"},
+ {id:3,firstname:'sana',lastname:'sajid',email:"sanasajid@gmail.com",password:"ernakulam",address:"345 2nd street",gender:"female"},
+ {id:4,firstname:'fayas',lastname:'jabbar',email:"fayasJabbar@gmail.com",password:"ernakulam",address:"vadakkethalakkal",gender:"male"},
+ {id:5,firstname:'sandhra',lastname:'francis',email:"san@gmai.com",password:"ernakulam",address:"puthyaveetil house",gender:"female"},
+ {id:6,firstname:'sharik',lastname:'sajid',email:"shariksajid@gmail.com",password:"ernakulam",address:"3 street",gender:"male"},
+ {id:7,firstname:'amritha',lastname:'luminar',email:"amritha@gmail.com",password:"ernakulam",address:"luminar technolab",gender:"female"},
 
  ]
   details: any;
@@ -77,7 +77,12 @@ getusers(){
   // console.log('hi');
   return this.http.get('http://localhost:3000/showcust') 
 }
-add(email:any,city:any,firstname:any,lastname:any,address:any,gender:any,image:any){
+getcourse(){
+  // console.log('hi');
+  return this.http.get('http://localhost:3000/getcourse') 
+}
+add(email:any,password:any,firstname:any,lastname:any,address:any,gender:any,image:any,course:any){
+  console.log('course: ', course);
   console.log('image: ', image);
   
  
@@ -88,14 +93,15 @@ add(email:any,city:any,firstname:any,lastname:any,address:any,gender:any,image:a
   formdata.append('file',image)
   formdata.append('lastname',lastname)
   formdata.append('email',email)
-  formdata.append('city',city)
+  formdata.append('password',password)
   formdata.append('address',address)
   formdata.append('gender',gender)
   formdata.append('firstname',firstname)
+  formdata.append('course',course)
   // console.log('formdata: ', formdata);
   // const data=
   //   {
-  //     firstname,lastname,email,city,address,gender,formdata
+  //     firstname,lastname,email,password,address,gender,formdata
   //     }
       // console.log('data: ', data);
    return this.http.post('http://localhost:3000/add',formdata ,)
@@ -105,13 +111,13 @@ add(email:any,city:any,firstname:any,lastname:any,address:any,gender:any,image:a
 
   }
 
-  update(id:any,email:any,city:any,firstname:any,lastname:any,address:any,gender:any){
+  update(id:any,email:any,password:any,firstname:any,lastname:any,address:any,gender:any,SelectedCourse:any){
     var data=this.userDetails
     // console.log(id);
     
     data=
       {
-      id,firstname,lastname,email,city,address,gender}
+      id,firstname,lastname,email,password,address,gender,SelectedCourse}
     
       return this.http.patch('http://localhost:3000/update',data)
   }
@@ -169,9 +175,26 @@ remove(email:any){
   this.saveDetails()
 
   }
+  removeclass(className:any){
+
+ 
+  // console.log('data: ', data);
+  return this.http.delete('http://localhost:3000/deleteClass/'+className)
+        // console.log('data: ', data);
+  // this.todo.splice(t,1)
+  this.saveDetails()
+
+  }
 
   
-  
+  addClass(fees:any,className:any,description:any){
+    const data={
+      fees,className,description
+    
+    }
+    return this.http.post('http://localhost:3000/addclass',data)
+
+  }
 }
 
 

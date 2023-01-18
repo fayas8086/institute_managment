@@ -1,0 +1,69 @@
+<form class="p-3"  [formGroup]="formGroup" > 
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">firstname <span class="text-danger"> *</span></label>
+     
+      <input type="text" class="form-control" id="firstname" formControlName="firstname"  type="text" name="firstname" >
+      <p [ngStyle]="{color:'red'}" *ngIf=" f.firstname.errors?.['required'] && f.firstname?.touched"> this field must not be empty</p>
+
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">phone number   <span class="text-danger"> *</span></label>
+        
+        <input type="text" class="form-control" id="lastname" formControlName="lastname"  type="text" name="lastname" >
+        <p [ngStyle]="{color:'red'}" *ngIf=" f.lastname.errors?.['required'] && f.lastname?.touched"> this field must not be empty</p>
+        
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address  <span class="text-danger"> *</span></label>
+    
+        <input type="email" class="form-control" id="email"  formControlName="email"  type="text" name="email" aria-describedby="emailHelp">
+        <p [ngStyle]="{color:'red'}" *ngIf=" f.email.errors?.['pattern'] && f.email?.touched"> enter valid email</p>
+
+      </div> <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">password <span class="text-danger"> *</span></label>
+    
+        <input type="password" class="form-control" id="password"  formControlName="password"  type="text" name="password" aria-describedby="passwordHelp">
+        <p [ngStyle]="{color:'red'}" *ngIf=" f.password.errors?.['pattern'] && f.password?.touched"> enter valid email</p>
+
+      </div>
+      <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"> address</label>
+      <textarea  class="form-control" id="address"  formControlName="address"  type="text" name="address" aria-describedby="addressHelp" name="" id="" cols="5" rows="5"></textarea>
+    
+
+        </div>   
+      <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">gender</label>
+    <input
+    type="radio"
+    id="male"
+    name="sample"
+    value="male"
+    (change)="onChange($event)"
+    checked /> 
+    <label for="a">Male</label> 
+    
+    <input
+    type="radio"
+    id="female"
+    name="sample"
+    value="female"
+    (change)="onChange($event)" />
+    <label for="b">female</label>
+ 
+  </div>
+  <div class="mb-3">
+    <input type="file" #myInput name="image" id="image" (change)="image($event)" accept="image/*" >
+  </div>
+  <div class="mb-3">
+  
+    
+  {{selected}}       <div class="d-flex justify-content-between">
+
+
+    <button type="submit" class="btn btn-success"[disabled]="!formGroup.valid"  (click)="close('toggle button')" (click)="add()">Submit</button>
+    <button type="submit" class="btn btn-danger "  (click)="close('toggle button')">Close</button>
+    
+    </div>      </div>
+
+</form>

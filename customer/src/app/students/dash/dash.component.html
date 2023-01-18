@@ -1,0 +1,82 @@
+<!-- Primary -->
+<div class=" bg-dark">
+<div class=" d-flex justify-content-end ">
+ 
+</div>
+  <h1 class="text-focus-in text-center text-warning">welcome {{username}}</h1>
+<div class="vh-100 d-flex align-items-center  justify-content-center ">
+    <div>
+
+ 
+<div class="d-flex flex-column pb-5 flex-md-row justify-content-md-around justify-content-center gap-3 mx-4  align-items-center" [ngClass]="acno?'hidden':' '" style="margin-bottom: 252px !important;">
+   
+ 
+  <div class="d-flex align-items-center ">
+  
+<div class="card p-5 ">
+
+    <!-- <div class="section ">
+        <input class="modal-btn modal-btn1 " type="checkbox" id="modal-btn1" name="modal-btn1"/>
+        <label for="modal-btn1">Deposit <i class="uil uil-expand-arrows"></i></label> 		
+        <div class="modal">		
+            <div class="modal-wrap modal-wrap1">	
+                <div class="container pt-2">
+                    <h1 class="text-center" id="deposit"> Deposit</h1>
+                                    <form action="" class="pt-3 px-3" [formGroup]="form">
+                                        <label for="dpt_uname">Account no:</label>
+                                        <input type="text" class="form form-control mb-2"name="dpt_uname" formControlName="acno"  autocomplete="off" id="dpt_uname">
+                                        <p [ngStyle]="{color:'red'}" *ngIf=" f.acno.errors?.['pattern'] && f.acno?.touched"> acno num must be number </p>
+
+                                        <label for="dpt_pswd">Password</label>
+                                        <input type="password" class="form form-control input-group mb-2" formControlName="pswd"  autocomplete="off" name="dpt_pswd" id="dpt_pswd">
+                                        <label for="dpt_pswd">Amount</label>
+                                        <input type="text" class="form form-control input-group"  formControlName="amnt"  autocomplete="off" name="dpt_amt" id="dpt_amt">
+                                        <p [ngStyle]="{color:'red'}" *ngIf=" f.amnt.errors?.['pattern'] && f.acno?.touched"> amount must be number </p>
+
+                                        <!-- <img src="https://assets.codepen.io/1462889/sl3.jpg" alt="">	 -->
+                                    <!-- <button class="btn btn-success mt-2 form-control" (click)="deposit()">Confirm</button>         		
+                                    </form>
+                                </div> </div>			          		
+        </div>	
+    </div>
+  </div></div>
+  <div  class="d-flex align-items-center ">
+  <div class="card  p-5"> --> -->
+    
+  <div class="section ">
+      <input class="modal-btn modal-btn2" type="checkbox" id="modal-btn2" name="modal-btn2"/>
+      <label for="modal-btn2" m>Pay fees <i class="uil uil-expand-arrows"></i></label> 		
+      <div class="modal">		
+          <div class="modal-wrap modal-wrap2  bg-light">	
+            <div class="container pt-2">
+<h1 class="text-center"> Withdraw</h1>
+                <form action="" class="pt-3 px-3" [formGroup]="form">
+                    <label for="wt_uname">Account no:</label>
+                    <input type="text" class="form form-control mb-2"name="wt_uname" formControlName="acno"  autocomplete="off" id="wt_uname">
+                    <p [ngStyle]="{color:'red'}" *ngIf=" f.acno.errors?.['pattern'] && f.acno?.touched"> acno num must be number </p>
+
+                    <label for="wt_pswd">Password</label>
+                    <input type="password" class="form form-control input-group mb-2" formControlName="pswd"  autocomplete="off" name="wt_pswd" id="wt_pswd">
+                    <label for="wt_pswd">Amount</label>
+                    <input type="text" class="form form-control input-group"  formControlName="amnt"  autocomplete="off" name="wt_amt" id="wt_amt">
+                    <p [ngStyle]="{color:'red'}" *ngIf=" f.amnt.errors?.['pattern'] && f.acno?.touched"> amount must be number </p>
+
+                    <!-- <img src="https://assets.codepen.io/1462889/sl3.jpg" alt="">	 -->
+                <button class="btn btn-danger mt-2 form-control" (click)="withdraw()">Confirm</button>         		
+                </form>
+            </div>
+            </div>			          		
+      </div>	
+
+</div>
+        </div>
+        
+  </div></div>
+  
+  <div class=" mb-5">
+    <div class="container-fluid mt-5"> <div class="ticker mt-5"> <div class="title pt-2"><h5> News</h5></div> <div class="news"> <marquee class="news-content"> <p> Fee Due :{{fee}}</p> </marquee> </div> </div> </div>
+</div>
+</div>	
+
+</div>
+</div>

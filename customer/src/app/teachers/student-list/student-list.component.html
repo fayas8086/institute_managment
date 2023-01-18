@@ -1,0 +1,56 @@
+<div class="container mt-5 "*ngIf="listStatus">
+    <input class="form-control" type="text" #filertext  name="" [(ngModel)]="filter "  (keydown)="key($event)" (ngModelChange)="search()">
+
+<table class="table table-hover">
+<thead>
+<tr>
+    <th>
+
+</th>
+<th>
+Name
+</th>
+<th>
+Phone Number
+</th>
+<th>
+Email
+</th>
+<th>
+Fees
+</th>
+<th>
+Address
+</th>
+<th>
+Action
+</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let i of students |paginate: { id: 'foo',
+itemsPerPage:7,
+currentPage: page,
+totalItems: total };let in = index">
+<td>                   <img [src]="images[in]" class="rounded rounded-circle  "  style="height: 72px;width: 72px;" alt="Image Source">
+</td>
+<td>{{i.firstname}}</td>
+<td>{{i.lastname}}</td>
+<td>{{i.email}}</td>
+<td>{{i.fees}}</td>
+<td>{{i.address}}</td>
+<td>  <button type="submit" class="btn btn-danger "   (click)="delete(i.email)">Delete</button>
+</td>
+
+
+<td></td>
+<!-- <td>  <button type="submit" class="btn btn-danger "   (click)="delete(i.className)">Delete</button>
+</td> -->
+</tr>
+</tbody>
+
+</table>
+<pagination-controls id="foo" (pageChange)="page=$event">
+
+</pagination-controls>
+</div>

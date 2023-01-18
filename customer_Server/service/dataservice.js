@@ -3,12 +3,12 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 const login =async (acno,pswd) =>{
   const user = await db.admin.findOne({ username:acno })
-  console.log('user: ', user);
-  console.log(pswd,acno);
+  // console.log('user: ', user);
+  // console.log(pswd,acno);
   const cmp = await bcrypt.compare(pswd, user.password);
   if( cmp){
 
-    return db.user.findOne({username:acno,password:pswd}).then( user =>{
+    return db.admin.findOne({username:acno}).then( user =>{
       
       
       // console.log('pswd: ', pswd);
@@ -16,6 +16,7 @@ const login =async (acno,pswd) =>{
       // console.log(userDetails)
       
       if(user){
+        
         // console.log('user: ',);
         
         // console.log(acno);
@@ -26,6 +27,7 @@ const login =async (acno,pswd) =>{
         // key=require('crypto').randomBytes(32).toString('hex')
         // const token = jwt.sign(acno,key)
         const token = jwt.sign(acno,'shajmil2022')
+
          return {
          currentuser: user.username,
           statuscode:200,
@@ -94,11 +96,11 @@ const signUp = async (username,password)=>{
   ) 
 
 }
-const add = (firstname,lastname,email,city,address,gender,final_img)=>{
+const add = (firstname,lastname,email,password,address,gender,final_img,course)=>{
   console.log('final_img: ', final_img);
     // console.log('gender: ', gender);
     // console.log('address: ', address);
-    // console.log('city: ', city);
+    // console.log('password: ', password);
     // console.log('email: ', email);
     // console.log('lastname: ', lastname);
     // console.log('firstname: ', firstname);
@@ -121,7 +123,7 @@ const add = (firstname,lastname,email,city,address,gender,final_img)=>{
            firstname,
            lastname,
            email,
-           city,address,gender,img:final_img
+           password,address,gender,img:final_img,course
            
         }, )  
         // console.log('newUser: ', newUser);
@@ -138,10 +140,55 @@ const add = (firstname,lastname,email,city,address,gender,final_img)=>{
     
     }
     ) }
-const update = (id,firstname,lastname,email,city,address,gender)=>{
+const addClass = (fees,className,description)=>{
+  console.log('className: ', className);
+  // console.log('final_img: ', final_img);
     // console.log('gender: ', gender);
     // console.log('address: ', address);
-    // console.log('city: ', city);
+    // console.log('password: ', password);
+    // console.log('email: ', email);
+    // console.log('lastname: ', lastname);
+    // console.log('firstname: ', firstname);
+
+    
+ 
+    return db.classes.findOne({className}).then(users=>{
+      console.log('users: ', users);
+  
+   
+      if(users){
+        console.log('users: ', users);
+        // alert('already exist')
+        return {
+          statuscode:401,
+          status: 'fail',
+          message:' class already exist'
+        }
+      }else{
+       const newUser= new db.classes( {
+           fees,
+           className,
+           description,
+           
+        }, )  
+        // console.log('newUser: ', newUser);
+  
+        newUser.save()
+        // console.log(userDetails);
+      // console.log(details);
+        return {
+          statuscode:200,
+          status: 'success',
+          message:' class created'
+        }
+      }
+    
+    }
+    ) }
+const update = (id,firstname,lastname,email,password,address,gender,SelectedCourse)=>{
+    // console.log('gender: ', gender);
+    // console.log('address: ', address);
+    // console.log('password: ', password);
     // console.log('email: ', email);
     // console.log('lastname: ', lastname);
     // console.log('firstname: ', firstname);
@@ -153,7 +200,7 @@ const update = (id,firstname,lastname,email,city,address,gender)=>{
       $set: {    firstname,
         lastname,
         email,
-        city,address,gender },
+        password,address,gender ,course:SelectedCourse},
     
     }).then(users=>{
       // console.log('users: ', users);
@@ -190,9 +237,12 @@ const update = (id,firstname,lastname,email,city,address,gender)=>{
     const showcust=()=>{
         return db.user.find().then(users=>{
             // console.log('users: ', users);
-            var b = Buffer.from(users[0].img.data).toString('base64')
+            if(users){
+
+         
+            // var b = Buffer.from(users[0].img.data).toString('base64')
           // console.log('b: ', b);
-          users[0].img=b;
+          // users[0].img=b;
 // var s = b.toString();
 // console.log('s: ', s);
             return {
@@ -200,7 +250,26 @@ const update = (id,firstname,lastname,email,city,address,gender)=>{
                 status: 'success',
                 message:users
               }
+            }
 
+    })}
+    const getcourse=()=>{
+        return db.classes.find().then(users=>{
+            // console.log('users: ', users);
+            if(users){
+
+         
+            // var b = Buffer.from(users[0].img.data).toString('base64')
+          // console.log('b: ', b);
+          // users[0].img=b;
+// var s = b.toString();
+// console.log('s: ', s);
+            return {
+                statuscode:200,
+                status: 'success',
+                message:users
+              }
+            }
 
     })}
     const deleteCus=(email)=>{
@@ -217,7 +286,21 @@ const update = (id,firstname,lastname,email,city,address,gender)=>{
     }
     )
   }
+    const deleteClass=(className)=>{
+     
+    
+        return db.classes.deleteOne({ className}).then(users=>{
+          
+            // console.log('users: ', users);
+            return {
+                statuscode:200,
+                status: 'success',
+                message:users
+              }
+    }
+    )
+  }
     module.exports = {
       add,showcust
-    ,deleteCus,update,signUp,login
+    ,deleteCus,update,signUp,login,addClass,getcourse,deleteClass
       }

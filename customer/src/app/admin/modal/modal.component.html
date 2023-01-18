@@ -1,0 +1,52 @@
+
+    <!-- some modal content --->
+   <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+    <form class="p-3"  [formGroup]="formGroup" > 
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">class name <span class="text-danger"> *</span></label>
+         
+          <input type="text" class="form-control" id="className" formControlName="className"  type="text" name="className" >
+          <p [ngStyle]="{color:'red'}" *ngIf=" f.className.errors?.['required'] && f.className?.touched"> this field must not be empty</p>
+    
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Fees   <span class="text-danger"> *</span></label>
+            
+            <input type="text" class="form-control" id="fees" formControlName="fees"  type="text" name="fees" >
+            <p [ngStyle]="{color:'red'}" *ngIf=" f.fees.errors?.['required'] && f.fees?.touched"> this field must not be empty</p>
+            
+          </div>
+        
+       
+          <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"> Description</label>
+          <textarea  class="form-control" id="description"  formControlName="description"  type="text" name="description" aria-describedby="descriptionHelp" name="" id="" cols="5" rows="5"></textarea>
+        
+
+            </div>  
+  <div class="d-flex justify-content-between">
+  
+
+    
+
+  </div>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger"(click)="close()" >
+      Close
+    </button>
+  
+    <button type="submit" class="btn btn-success"   (click)="add()">Submit</button>  </div>
+

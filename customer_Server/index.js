@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const ds =require('./service/dataservice')
+const sds =require('./service/studentservice')
+const tds =require('./service/teacherdataservice')
 const db =require('./service/db')
 const cors = require('cors')
 const fs = require("fs")
@@ -22,49 +24,7 @@ app.use(cors({
         console.log('sucess');
         })
    
-app.post('/login',async (req,res)=>{
-    try {
 
-        ds.login(req.body.acno,req.body.pswd).then(result=>{
-            // res.json(result)
-            
-            res.status(result.statuscode).json(result)})
-      } catch (error) {
-        console.log(error);
-        res.status(500).send("Internal Server error Occured");
-      }
-
-   
-    // if(result){
-    //     res.send('success')
-    
-    // }
-    // else{
-    //     req.send('fail')
-    // }
-    })     
-app.post('/register',async (req,res)=>{
-    try {
-        const hashedPwd = await bcrypt.hash(req.body.password, 10);
-        console.log('hashedPwd: ', hashedPwd);
-        ds.signUp(req.body.username,hashedPwd).then(result=>{res.status(result.statuscode).json(result)})
-
-      } catch (error) {
-        console.log(error);
-        res.status(500).send("Internal Server error Occured");
-      }
-
- 
-    // res.json(result)
-    
-    // if(result){
-    //     res.send('success')
-    
-    // }
-    // else{
-    //     req.send('fail')
-    // }
-    })
         
         var storage = multer.diskStorage({
             destination: function (req, file, cb) {
@@ -76,69 +36,137 @@ app.post('/register',async (req,res)=>{
             }
           })
           var upload = multer({ storage: storage })
+          
 
+//admin
 
-
+        app.post('/login',async (req,res)=>{
+            try {
+        
+                ds.login(req.body.acno,req.body.pswd).then(result=>{
+                    // res.json(result)
+                    
+                    res.status(result.statuscode).json(result)})
+              } catch (error) {
+                // console.log(error);
+                res.status(500).send("Internal Server error Occured");
+              }
+            })    
+             
+        app.post('/register',async (req,res)=>{
+            try {
+                const hashedPwd = await bcrypt.hash(req.body.password, 10);
+                console.log('hashedPwd: ', hashedPwd);
+                ds.signUp(req.body.username,hashedPwd).then(result=>{res.status(result.statuscode).json(result)})
+        
+              } catch (error) {
+                console.log(error);
+                res.status(500).send("Internal Server error Occured");
+              }
+            })
 
         app.post('/add',upload.single('file'),(req,res)=>{
             console.log('  req.body: ',   req.body);    
             var img = fs.readFileSync(req.file.path);
              var encode_img = img.toString('base64');
-            //  console.log('encode_img: ', encode_img);
             var final_img = {
                 data:new Buffer.from(encode_img,'base64'),
                 contentType:req.file.mimetype,
             };
-            // console.log('final_img : ', final_img );
-            // console.log(',req.body.image:' ,req.file);
-            // console.log(',req.body.image:' ,req.body.gender
-            // );
-            ds.add(req.body.firstname,req.body.lastname,req.body.email,req.body.city,req.body.address,req.body.gender,final_img)
+            ds.add(req.body.firstname,req.body.lastname,req.body.email,req.body.password,req.body.address,req.body.gender,final_img,req.body.course)
             .then(result=>{
+             res.status(result.statuscode).json(result)}) })
 
+        app.post('/addclass',(req,res)=>{
+            ds.addClass(req.body.fees,req.body.className,req.body.description)
+            .then(result=>{
+                res.status(result.statuscode).json(result)})  })
 
-                res.status(result.statuscode).json(result)
-    
-            })
-
-        })
         app.patch('/update',(req,res)=>{
-            // console.log('  req.body: ',   req.body);    
-            ds.update(req.body.id,req.body.firstname,req.body.lastname,req.body.email,req.body.city,req.body.address,req.body.gender)
+            ds.update(req.body.id,req.body.firstname,req.body.lastname,req.body.email,req.body.password,req.body.address,req.body.gender,req.body.SelectedCourse)
+            .then(result=>{ console.log('req.body.password: ', req.body.password);
+            res.status(result.statuscode).json(result)}) })
+
+
+        app.get('/showcust',(req,res)=>{ds.showcust()
+            .then(result=>{ res.status(result.statuscode).json(result)  })  })
+
+
+        app.get('/getcourse',(req,res)=>{
+            ds.getcourse()
             .then(result=>{
-                // console.log('result: ', result);
+                  res.status(result.statuscode).json(result) })})
 
+        app.delete('/deleteClass/:className',(req,res)=>{
+            ds.deleteClass(req.params.className ).then(result =>{
+                res.status(result.statuscode).json(result) })})
 
-                res.status(result.statuscode).json(result)
-    
-            })
-
-        })
-        app.get('/showcust',(req,res)=>{
-            // console.log('res: ', res);
-          
-            ds.showcust()
-            .then(result=>{
-                // console.log('result: ', result.message[0].img);
-
-
-                res.status(result.statuscode).json(result)
-    
-            })
-
-        })
         app.delete('/deleteCus',(req,res)=>{
             let email=req.headers['email']
             console.log('email: ', email);
             console.log('res: ', req.body);
-          
-            ds.deleteCus(email)
-            .then(result=>{
-                // console.log('result: ', result.message);
+           ds.deleteCus(email).then(result=>{
+            res.status(result.statuscode).json(result)}) })
 
 
-                res.status(result.statuscode).json(result)
+//teacher 
+
+
+      app.post('/Teacherlogin',async (req,res)=>{
+      try {
+
+        tds.login(req.body.acno,req.body.pswd).then(result=>{
+            // res.json(result)
+            
+            res.status(result.statuscode).json(result)})
+          } catch (error) {
+        // console.log(error);
+        res.status(500).send("Internal Server error Occured");
+          }
+        })   
     
-            })
+    app.post('/showstudent',(req,res)=>{
+      
+      console.log('req.body: ', req.body);
+      tds.showstudent(req.body.teacher)
+      .then(result=>{ res.status(result.statuscode).json(result)  })  })
 
-        })
+      app.post('/addstudent',upload.single('file'),(req,res)=>{
+        console.log('  req.body: ',   req.body);    
+        var img = fs.readFileSync(req.file.path);
+         var encode_img = img.toString('base64');
+        var final_img = {
+            data:new Buffer.from(encode_img,'base64'),
+            contentType:req.file.mimetype,
+        };
+        tds.add(req.body.firstname,req.body.lastname,req.body.email,req.body.password,req.body.address,req.body.gender,final_img,req.body.course,req.body.teacher,req.body.fees)
+        .then(result=>{
+         res.status(result.statuscode).json(result)})  })
+ 
+         app.delete('/deletestudent/:student',(req,res)=>{
+          tds.deletestudent(req.params.student ).then(result =>{
+              res.status(result.statuscode).json(result) })})
+//student
+
+
+
+app.post('/studentlogin',(req,res)=>{
+
+  sds.login(req.body.acno,req.body.pswd).then(result=>{
+  // res.json(result)
+  
+  res.status(result.statuscode).json(result)})
+  // if(result){
+  //     res.send('success')
+  
+  // }
+  // else{
+  //     req.send('fail')
+  // }
+  })
+         
+    app.post('/getstudent',(req,res)=>{
+      
+      console.log('req.body: ', req.body);
+      sds.showstudent(req.body.mail)
+      .then(result=>{ res.status(result.statuscode).json(result)  })  })
